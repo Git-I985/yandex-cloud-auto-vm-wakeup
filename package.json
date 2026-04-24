@@ -1,0 +1,18 @@
+{
+  "name": "yc-unshelve",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "start": "bun run index.ts",
+    "dev": "bun --watch run index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5"
+  },
+  "module": "index.ts",
+  "private": true,
+  "dependencies": {
+    "@types/node": "^25.6.0"
+  }
+}
