@@ -1,7 +1,7 @@
 # Yandex Cloud Compute auto wakeup VMs
 
 Auto-restart for stopped VMs in Yandex Cloud Compute.
-The script pings a given URL. If the ping fails and the instance is in a status that needs a restart, it restarts the instance automatically. Useful for preemptible (cheap) VMs.
+The script polls the Yandex Cloud Compute API for the instance status. If the status shows the VM needs a restart, it sends a start command automatically. Useful for preemptible (cheap) VMs.
 
 ## Installation
 
@@ -13,11 +13,10 @@ cp .env.example .env
 
 ## What the script does
 
-1. Pings `PROBE_IP` up to `PROBE_RETRIES` times in a row (with a 200ms pause).
-2. If every attempt fails — asks for the instance status via the Yandex Cloud Compute API.
-3. If `status` is one of those that need a restart — sends a restart request to the API.
-4. After the start, it checks again in 1 minute.
-5. For other statuses, it does nothing and waits for the next cycle.
+1. Every `PROBE_INTERVAL_SECONDS` (60s by default), asks the Yandex Cloud Compute API for the instance status.
+2. If the status matches one of the restart-required states — sends a start command and waits longer before checking again.
+3. If the status matches one of the transient states — also waits longer before checking again.
+4. For any other status — just logs the status and waits for the next cycle.
 
 ## Authentication
 
