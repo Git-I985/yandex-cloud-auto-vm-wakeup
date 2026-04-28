@@ -12,13 +12,8 @@ export const RESTART_STATUSES = [
   Instance_Status.CRASHED,
 ];
 
-export const TRANSIENT_STATUSES = [
-  Instance_Status.PROVISIONING,
-  Instance_Status.STARTING,
-  Instance_Status.STOPPING,
-  Instance_Status.RESTARTING,
-  Instance_Status.UPDATING,
-];
+const enumGetKeyByVal = (enumObj: any, enumValue: any) =>
+  Object.keys(enumObj).find((k) => enumObj[k] === enumValue);
 
 export const checkInstance = async () => {
   try {
@@ -27,18 +22,22 @@ export const checkInstance = async () => {
       instanceService.InstanceServiceClient,
     );
 
-    const state = await instanceServiceClient.get({
+    const { status } = await instanceServiceClient.get({
       instanceId: YC_INSTANCE_ID,
       view: InstanceView.FULL,
     });
 
-    if (RESTART_STATUSES.includes(state.status)) {
-      console.warn(`Instance ${YC_INSTANCE_ID} is ${state.status}, starting`);
+    const humanReadableStatus = enumGetKeyByVal(Instance_Status, status);
+
+    if (RESTART_STATUSES.includes(status)) {
+      console.warn(
+        `Instance ${YC_INSTANCE_ID} is ${humanReadableStatus}, starting`,
+      );
       await instanceServiceClient.start({
         instanceId: YC_INSTANCE_ID,
       });
     } else {
-      console.warn(`Instance ${YC_INSTANCE_ID} is ${state.status}`);
+      console.warn(`Instance ${YC_INSTANCE_ID} is ${humanReadableStatus}`);
     }
 
   } catch (e) {

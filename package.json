@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "bun build function.ts --target=node --outfile=function.js && zip -1 -m build.zip function.js",
-    "deploy": "bun deploy.ts",
+    "deploy": "bun deploy.ts && rm -rf build.zip",
     "build-and-deploy": "bun run build && bun run deploy"
   },
   "devDependencies": {
