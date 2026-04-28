@@ -8,7 +8,7 @@ import { readFile } from "fs/promises";
 const YC_FOLDER_ID = required("YC_FOLDER_ID");
 const YC_FUNCTION_NAME = "auto-vm-wakeup";
 const YC_TRIGGER_NAME = `${YC_FUNCTION_NAME}-trigger`;
-const YC_TRIGGER_CRON_EXPRESSION = "* * ? * * *";
+const YC_TRIGGER_CRON_EXPRESSION = "*/5 * ? * * *";
 const YC_FUNCTION_SOURCE_CODE_ZIP_PATH = "./build.zip";
 const YC_FUNCTION_RUNTIME = "nodejs22";
 const YC_FUNCTION_ENTRYPOINT = "function.checkInstance";
