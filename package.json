@@ -3,16 +3,17 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "start": "bun run index.ts",
-    "dev": "bun --watch run index.ts"
+    "build": "bun build function.ts --target=node --outfile=function.js && zip -1 -m build.zip function.js",
+    "deploy": "bun deploy.ts",
+    "build-and-deploy": "bun run build && bun run deploy"
   },
   "devDependencies": {
     "@types/bun": "latest",
     "typescript": "^5"
   },
-  "module": "index.ts",
   "private": true,
   "dependencies": {
-    "@types/node": "^25.6.0"
+    "@types/node": "^25.6.0",
+    "@yandex-cloud/nodejs-sdk": "^3.1.0"
   }
 }
